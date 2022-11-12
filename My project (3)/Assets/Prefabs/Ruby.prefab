@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6337647307819663774}
   m_Layer: 6
   m_Name: Ruby
-  m_TagString: Untagged
+  m_TagString: RubyController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,6 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7cf064e344ef441bc8ae3991e57587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 0}
+  score: 0
   speed: 3
   maxHealth: 5
   timeInvincible: 2
@@ -106,6 +108,8 @@ MonoBehaviour:
   walkSound: {fileID: 8300000, guid: a20c77ecd5de9eb4a98731b45ad84c3e, type: 3}
   throwSound: {fileID: 8300000, guid: b2edfd40873655249ba0e01a5cf705be, type: 3}
   hurtSound: {fileID: 8300000, guid: 9b1bb1f450b7d444fa4a8019d13519a7, type: 3}
+  collisionParticlesPrefab: {fileID: 1954403372896820616, guid: c722019f969d365439f8c6b5e9478325, type: 3}
+  healthParticlesPrefab: {fileID: 6412831781216187218, guid: 3e2242e01007d424987a2c7225a5be8e, type: 3}
 --- !u!50 &7405512291026141286
 Rigidbody2D:
   serializedVersion: 4

@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Easy
+  - Hard
+  - RubyController
   layers:
   - Default
   - TransparentFX
@@ -15,7 +18,7 @@ TagManager:
   - Projectile
   - Confiner
   - NPC
-  - 
+  - Box
   - 
   - 
   - 
@@ -40,4 +43,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Text
+    uniqueID: 3086513413
+    locked: 0
+  - name: Background
+    uniqueID: 2879109911
     locked: 0
