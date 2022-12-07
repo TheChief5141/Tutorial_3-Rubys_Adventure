@@ -8,6 +8,7 @@ public class RubyController : MonoBehaviour
 {
     [Header("Game Settings")]
     public Text scoreText;
+    public Text countdownText;
     public Text winText;
     public Text cogText;
     public int score;
@@ -16,6 +17,8 @@ public class RubyController : MonoBehaviour
     public static int gameLevel = 1;
     public int cogAmount;
     public int numCogsSpawned = 2;
+    public float startingTime;
+    public float currentTime;
     
     float horizontal; 
     float vertical;
@@ -49,6 +52,15 @@ public class RubyController : MonoBehaviour
     bool once;
     public GameObject collisionParticlesPrefab;
     public GameObject healthParticlesPrefab;
+
+    [Header("Dashing")]
+    public float dashSpeed;
+    public float dashTime = 0.5f;
+    private Vector2 dashingDir;
+    private bool isDashing;
+    private bool canDash = true;
+    public AudioClip whoosh;
+    
     
     
     // Start is called before the first frame update
@@ -62,6 +74,7 @@ public class RubyController : MonoBehaviour
         score = 0;
         cogAmount = 3;
         updateText(cogText, cogAmount.ToString());
+        currentTime = startingTime;
     }
 
     // Update is called once per frame
@@ -109,14 +122,20 @@ public class RubyController : MonoBehaviour
             if (hit.collider != null)
             {
                 NonPlayerCharacterScript character = hit.collider.gameObject.GetComponent<NonPlayerCharacterScript>();
+                TimerController1 timeCharacter = hit.collider.gameObject.GetComponent<TimerController1>();
                 if (character != null)
                 {
-                   character.DisplayDialogue(); 
+                   character.DisplayDialogue();
                    if (gameOver && gameLevel == 1)
                    {
                         gameLevel = 2;
                         SceneManager.LoadScene("newScene");
                    }
+                }
+
+                if (timeCharacter != null)
+                {
+                    timeCharacter.DisplayDialogue();
                 }
             }
             RaycastHit2D hitBox = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("Box"));
@@ -134,12 +153,45 @@ public class RubyController : MonoBehaviour
         }
     }
 
+    private IEnumerator StopDashing()
+    {
+        yield return new WaitForSeconds(dashTime);
+        isDashing = false;
+        canDash = true;
+    }
+
+
     void FixedUpdate()
     {
         Vector2 position = rigidbody2d.position;
-        position.x = position.x + speed * horizontal * Time.deltaTime;
-        position.y = position.y + speed * vertical * Time.deltaTime;
 
+        var dashInput = Input.GetKey(KeyCode.Q);
+
+        if (dashInput && canDash)
+        {
+            Debug.Log("Dashing");
+            isDashing = true;
+            canDash = false;
+            dashingDir = new Vector2 (Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            if (dashingDir == Vector2.zero)
+            {
+                dashingDir = new Vector2(transform.localScale.x, 0);
+            }
+            //Add stopping dash
+           
+        }
+
+        if (isDashing)
+        {
+            position.x = position.x + speed * dashingDir.x * Time.deltaTime * dashSpeed;
+            position.y = position.y + speed * dashingDir.y * Time.deltaTime * dashSpeed;
+            StartCoroutine(StopDashing());
+        }
+        else
+        {
+            position.x = position.x + speed * horizontal * Time.deltaTime;
+            position.y = position.y + speed * vertical * Time.deltaTime;
+        }
         rigidbody2d.MovePosition(position);
     }
 
@@ -204,10 +256,12 @@ public class RubyController : MonoBehaviour
     {
         score = score + amount;
         updateText(scoreText, score.ToString());
+        /*
         if (score >= 6)
         {
             winFunction();
         }
+        */
     }
 
     void randomCogSpawn(GameObject spawnPoint)
@@ -245,13 +299,13 @@ public class RubyController : MonoBehaviour
 
     public void winFunction()
     {
-        if (gameLevel == 1)
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             gameOver = true;
             winText.text = "You fixed all the Robots! Talk to Jambi to move to level 2!";
             winText.gameObject.SetActive(true);
         }
-        else if (gameLevel == 2)
+        else if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             gameOver = true;
             winText.text = "You win! Game Created by Logan Kilburn!";

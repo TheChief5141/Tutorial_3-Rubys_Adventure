@@ -100,16 +100,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
+  countdownText: {fileID: 0}
+  winText: {fileID: 0}
+  cogText: {fileID: 0}
   score: 0
+  cogAmount: 0
+  numCogsSpawned: 2
+  startingTime: 0
+  currentTime: 0
   speed: 3
   maxHealth: 5
   timeInvincible: 2
   projectilePrefab: {fileID: 7453681103048776234, guid: e574394cf598d6741963a5fb7dec0280, type: 3}
+  projectileCollectible: {fileID: 0}
   walkSound: {fileID: 8300000, guid: a20c77ecd5de9eb4a98731b45ad84c3e, type: 3}
   throwSound: {fileID: 8300000, guid: b2edfd40873655249ba0e01a5cf705be, type: 3}
   hurtSound: {fileID: 8300000, guid: 9b1bb1f450b7d444fa4a8019d13519a7, type: 3}
+  winSound: {fileID: 0}
+  loseSound: {fileID: 0}
   collisionParticlesPrefab: {fileID: 1954403372896820616, guid: c722019f969d365439f8c6b5e9478325, type: 3}
   healthParticlesPrefab: {fileID: 6412831781216187218, guid: 3e2242e01007d424987a2c7225a5be8e, type: 3}
+  dashSpeed: 2
+  dashTime: 0.1
+  whoosh: {fileID: 8300000, guid: 55b9cd8d1d9707643b4f627b6ec7a67c, type: 3}
 --- !u!50 &7405512291026141286
 Rigidbody2D:
   serializedVersion: 4
